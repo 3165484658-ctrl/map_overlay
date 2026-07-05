@@ -1,0 +1,6 @@
+map_saver:
+  ros__parameters:
+    map_topic: "/map"
+    map_save_path: "/home/ztl/ros2_ws/src/robot_mapping/map/68_overlay"
+    save_service_name: "/map_overlay/save_map"
+    large_map_cell_threshold: 2000000

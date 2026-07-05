@@ -1,0 +1,87 @@
+map_overlay:
+  ros__parameters:
+    scan_topic: "/scan"
+    map_yaml_path: "/home/ztl/ros2_ws/src/robot_mapping/map/68.yaml"
+    map_topic_in: "/map"
+    map_topic_out: "/map"
+    map_frame: "map"
+    odom_frame: "odom"
+    localization_mode: "amcl"
+    use_scan_match_when_mapping: true
+    scan_match_search_xy: 0.20
+    scan_match_search_yaw: 0.12
+    scan_match_steps: 15
+    scan_match_beam_stride: 1
+    scan_match_max_beams: 300
+    scan_match_field_cache_cells: 5
+    scan_match_min_score: 0.60
+    # 0.8 米内的点不参与 scan-to-map 匹配，避免机体/地面/腿造成退化
+    scan_match_min_range: 0.3
+    scan_match_likelihood_sigma: 0.30
+    scan_match_likelihood_max_dist: 2.0
+    scan_match_field_radius: 0.0
+    scan_match_yaw_reach: 3.0
+    scan_match_fine_iterations: 8
+    scan_match_fine_xy: 0.03
+    scan_match_fine_yaw: 0.02
+    scan_match_fine_steps: 5
+    # 每 N 帧或位移/转角超阈值时做 full scan_match；中间帧由 PF likelihood 更新
+    scan_match_every_n_scans: 1
+    scan_match_trigger_d: 0.05
+    scan_match_trigger_a: 0.03
+    scan_match_log_timing: true
+    map_odom_smoothing: 0.08
+    # map→odom 轻量粒子滤波（AMCL 式 likelihood，无每帧 grid search）
+    use_map_odom_pf: true
+    pf_num_particles: 1000
+    pf_resample_interval: 5
+    pf_noise_xy: 0.002
+    pf_noise_yaw: 0.002
+    pf_trans_alpha: 0.04
+    pf_rot_alpha: 0.02
+    pf_init_xy: 0.02
+    pf_init_yaw: 0.015
+    pf_refine_xy: 0.01
+    pf_refine_yaw: 0.008
+    # likelihood 温度，越小 PF 权重越锐化
+    pf_likelihood_temp: 0.30
+    match_map_local_sync: true
+    # 0=禁用周期性全图快照（仅 start_mapping/加载时一次 + 增量 sync）
+    match_map_full_refresh_updates: 0
+    large_map_cell_threshold: 2000000
+    ros2_cmd_timeout: 3.0
+    map_odom_publish_rate: 30.0
+    # 静止判定：odom 位移/转角低于阈值时不做 scan_to_map 测量更新，防止原地抖动漂移
+    loc_update_min_d: 0.005
+    loc_update_min_a: 0.005
+
+    auto_deactivate_amcl_on_start: true
+    reactivate_amcl_on_stop: false
+    amcl_node_name: "amcl"
+    lifecycle_manager_name: "lifecycle_manager_localization"
+    start_mapping_on_launch: false
+    update_radius: 20
+    enable_clearing: true
+    integrate_every_n_scans: 1
+    min_update_distance: 0.05
+    min_update_angle: 0.05
+    # 单次 hit/miss 增量；0.40 时未知格约需 3~4 次命中才到 occupied_thresh
+    log_odds_hit: 0.40
+    log_odds_miss: 0.40
+    log_odds_min: -4.0
+    log_odds_max: 4.0
+    # 未知格 (-1) 内部先验；略偏 free，避免 1~2 帧就黑墙
+    unknown_prior_prob: 0.35
+    # linear=RViz 灰度渐变；threshold=Nav 风格 0/100 硬阈值
+    map_occ_display_mode: "linear"
+    occupied_thresh: 0.65
+    free_thresh: 0.196
+    # 多帧确认：栅格需要连续命中/空闲这么多帧才显示为纯 occupied/free
+    occ_confirm_hits: 5
+    occ_confirm_misses: 3
+    scan_range_min: 0.25
+    scan_range_max: 20.0
+    publish_rate: 5.0
+    publish_map_on_integrate: true
+    wait_for_map_timeout: 30.0
+    tf_timeout: 0.3
